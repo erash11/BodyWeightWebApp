@@ -12,27 +12,11 @@ def check_password():
 
     def password_entered():
         """Checks whether a password entered by the user is correct."""
-        # You can use either simple password or hashed password
-        # For better security, use the hashed version
-        
-        # OPTION 1: Simple password (easier but less secure)
+        # Simple password check
         # Change "your_password_here" to your desired password
-        if st.session_state["password"] == "Bears2025":
+        if st.session_state["password"] == "your_password_here":
             st.session_state["password_correct"] = True
             del st.session_state["password"]  # Don't store password
-        
-        # OPTION 2: Hashed password (more secure - RECOMMENDED)
-        # Uncomment the lines below and comment out OPTION 1 above
-        # To generate your hash, run this in Python:
-        # import hashlib
-        # print(hashlib.sha256("your_password".encode()).hexdigest())
-        
-        # entered_password_hash = hashlib.sha256(st.session_state["password"].encode()).hexdigest()
-        # # Replace the hash below with your generated hash
-        # correct_password_hash = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"  # This is hash of "password"
-        # if entered_password_hash == correct_password_hash:
-        #     st.session_state["password_correct"] = True
-        #     del st.session_state["password"]
         else:
             st.session_state["password_correct"] = False
 
