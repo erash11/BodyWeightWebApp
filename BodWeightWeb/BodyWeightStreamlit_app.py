@@ -26,8 +26,18 @@ def load_data():
 # Load data
 data = load_data()
 
-# Title
-st.title("Body Weight Trends Over Time")
+# Title with last updated indicator
+col1, col2 = st.columns([3, 1])
+with col1:
+    st.title("Body Weight Trends Over Time")
+with col2:
+    # Show when data was last loaded
+    import datetime
+    st.caption(f"🕐 Data loaded: {datetime.datetime.now().strftime('%I:%M %p')}")
+    
+# Get the most recent entry date from the dataset
+most_recent_entry = data['DATE'].max()
+st.info(f"📊 Latest data entry: {most_recent_entry.strftime('%B %d, %Y')} | Total records: {len(data)}")
 
 # Mode selection
 mode = st.radio("Select Mode:", options=["Individual", "Position"], horizontal=True)
