@@ -14,7 +14,7 @@ def check_password():
         """Checks whether a password entered by the user is correct."""
         # Simple password check
         # Change "your_password_here" to your desired password
-        if st.session_state["password"] == "your_password_here":
+        if st.session_state["password"] == "Bears2025":
             st.session_state["password_correct"] = True
             del st.session_state["password"]  # Don't store password
         else:
