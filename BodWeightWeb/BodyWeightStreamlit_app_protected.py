@@ -144,7 +144,7 @@ for i, month in enumerate(avg_weight_by_month['YearMonth']):
         y=monthly_data['WEIGHT'],
         mode='lines+markers', 
         name='Daily Avg Weight', 
-        line=dict(color='rgba(0,128,128,0.15)'), 
+        line=dict(color='rgba(0,128,128,0.6)'), 
         showlegend=False
     ))
 
