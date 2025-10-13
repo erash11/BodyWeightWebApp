@@ -158,7 +158,7 @@ for date, weight in zip(avg_weight_by_month['YearMonth'], avg_weight_by_month['W
         name='Monthly Avg Weight',
         text=[None, f'{weight:.1f}'],
         textposition='top center',
-        textfont=dict(color='darkred', family='Arial', size=12)
+        textfont=dict(color='darkred', family='Arial', size=12, weight='bold')
     ))
 
 # Update the layout
