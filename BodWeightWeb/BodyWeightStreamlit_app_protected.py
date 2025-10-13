@@ -107,6 +107,51 @@ else:
         index=0
     )
 
+# Date range slider
+st.markdown("### 📅 Select Date Range")
+min_date = data['Date'].min()
+max_date = data['Date'].max()
+
+# Create two columns for date range
+col1, col2 = st.columns(2)
+
+with col1:
+    start_date = st.date_input(
+        "Start Date",
+        value=min_date,
+        min_value=min_date,
+        max_value=max_date,
+        key="start_date"
+    )
+
+with col2:
+    end_date = st.date_input(
+        "End Date",
+        value=max_date,
+        min_value=min_date,
+        max_value=max_date,
+        key="end_date"
+    )
+
+# Add a slider for quick range selection
+date_range = st.slider(
+    "Or use slider to select date range:",
+    min_value=min_date,
+    max_value=max_date,
+    value=(start_date, end_date),
+    format="MM/DD/YY",
+    key="date_slider"
+)
+
+# Use slider values if they differ from date inputs
+if date_range != (start_date, end_date):
+    start_date, end_date = date_range
+
+# Validate date range
+if start_date > end_date:
+    st.error("⚠️ Error: End date must be after start date")
+    st.stop()
+
 # Filter data based on selection
 if mode == "Individual":
     if selected_value == "All Individuals":
@@ -118,6 +163,14 @@ else:
         ind_data = data.copy()
     else:
         ind_data = data[data['POS'] == selected_value]
+
+# Apply date range filter
+ind_data = ind_data[(ind_data['Date'] >= start_date) & (ind_data['Date'] <= end_date)]
+
+# Check if filtered data is empty
+if len(ind_data) == 0:
+    st.warning("⚠️ No data available for the selected filters. Please adjust your selection.")
+    st.stop()
 
 # Calculate average weight for each day
 avg_weight_by_day = ind_data.groupby(['Date'])['WEIGHT'].mean().reset_index()
@@ -270,6 +323,9 @@ with tab3:
 # Summary statistics
 st.markdown("---")
 st.subheader("📊 Summary Statistics")
+
+# Display date range info
+st.caption(f"Showing data from {start_date.strftime('%B %d, %Y')} to {end_date.strftime('%B %d, %Y')}")
 
 col1, col2, col3, col4 = st.columns(4)
 
