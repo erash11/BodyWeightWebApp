@@ -67,6 +67,9 @@ def load_data():
     # Extract date from the DATE column
     data['Date'] = data['DATE'].dt.date
     
+    # Add Year column
+    data['Year'] = data['DATE'].dt.year
+    
     # Add YearMonth column
     data['YearMonth'] = data['DATE'].dt.to_period('M')
     
@@ -106,6 +109,16 @@ else:
         options=["All Positions"] + positions,
         index=0
     )
+
+# Year selector
+st.markdown("### 📆 Select Year(s)")
+available_years = sorted(data['Year'].unique())
+selected_years = st.multiselect(
+    "Filter by Year:",
+    options=available_years,
+    default=available_years,
+    help="Select one or more years to filter the data"
+)
 
 # Date range slider
 st.markdown("### 📅 Select Date Range")
@@ -163,6 +176,10 @@ else:
         ind_data = data.copy()
     else:
         ind_data = data[data['POS'] == selected_value]
+
+# Apply year filter
+if selected_years:
+    ind_data = ind_data[ind_data['Year'].isin(selected_years)]
 
 # Apply date range filter
 ind_data = ind_data[(ind_data['Date'] >= start_date) & (ind_data['Date'] <= end_date)]
